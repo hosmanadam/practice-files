@@ -111,7 +111,10 @@ venv.bak/
 
 # Compiled classes
 out
-.class
+*.class
+
+# IntelliJ IDEA Modules
+*.iml
 
 
 # ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ CUSTOM ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
