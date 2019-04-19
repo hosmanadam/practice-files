@@ -1,0 +1,1 @@
+from sub1.sub2.sub3.test_file import test_variable
