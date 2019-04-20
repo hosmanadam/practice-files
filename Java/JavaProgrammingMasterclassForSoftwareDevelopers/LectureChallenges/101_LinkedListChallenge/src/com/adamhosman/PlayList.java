@@ -8,16 +8,18 @@ public class PlayList {
 
     private String title;
     private LinkedList<Single> songs;
-    private ListIterator playHead;
+    private ListIterator<Single> playHead;
+    private Single nowPlaying;
     private UserInterface ui = new UserInterface();
     private boolean isPlaying = false;
+    private int lastSkipDirection = 0;  // 1 for forward, -1 for back
     private ArrayList<String> menu = new ArrayList<>(){{
         add("Stop & quit");
-        add("Previous song");
+        add("Play previous");
         add("Replay current song");
-        add("Next song");
-        add("List all songs");
-        add("Remove current song from playlist");
+        add("Play next");
+        add("Display playlist");
+        add("Remove current from playlist");
     }};
 
     public PlayList(String title) {
@@ -27,7 +29,6 @@ public class PlayList {
     public PlayList(String title, LinkedList<Single> songs) {
         this.title = title;
         this.songs = songs;
-        this.playHead = songs.listIterator();  // TODO: Access 'songs' only through this
     }
 
     public void handleMenu() {
@@ -38,29 +39,21 @@ public class PlayList {
                 stop();
                 break;
             case 1:
-                // TODO
+                playPrevious();
                 break;
             case 2:
-                // TODO
+                playAgain();
                 break;
             case 3:
-                // TODO
+                playNext();
                 break;
             case 4:
-                display();
+                displayPlayList();
                 break;
             case 5:
-                // TODO
+                removeCurrent();
                 break;
         }
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public LinkedList<Single> getSongs() {
-        return songs;
     }
 
     public boolean addSong(Album album, String songTitle) {
@@ -72,7 +65,7 @@ public class PlayList {
         return true;
     }
 
-    public void display() {
+    public void displayPlayList() {
         ui.printPlayList(title, getTotalDuration(), songs);
     }
 
@@ -84,9 +77,53 @@ public class PlayList {
         return totalDuration;
     }
 
-    public void play() {
-        isPlaying = true;
+    public void start() {
         ui.printHello();
+        displayPlayList();
+        playHead = songs.listIterator();
+        nowPlaying = playHead.next();
+        isPlaying = true;
+        ui.printNowPlaying(nowPlaying);
+    }
+
+    public void playPrevious() {
+        if (lastSkipDirection == 0 || !playHead.hasPrevious()) {
+            ui.printError("Can't skip back, already on first song!");
+        } else {
+            if (lastSkipDirection == 1) {
+                playHead.previous();
+            }
+            nowPlaying = playHead.previous();
+            ui.printMessage("\nSkipping back...");
+            ui.printNowPlaying(nowPlaying);
+            lastSkipDirection = -1;
+        }
+    }
+
+    public void playAgain() {
+        ui.printMessage("\nAnd again...");
+        ui.printNowPlaying(nowPlaying);
+    }
+
+    public void removeCurrent() {
+        ui.printMessage("\n'" + nowPlaying.getTitle() + "' removed from " + this.title);
+        playHead.remove();
+        nowPlaying = playHead.next();
+        ui.printNowPlaying(nowPlaying);
+    }
+
+    public void playNext() {
+        if (!playHead.hasNext()) {
+            ui.printError("Can't skip forward, already on last song!");
+        } else {
+            if (lastSkipDirection == -1) {
+                playHead.next();
+            }
+            nowPlaying = playHead.next();
+            ui.printMessage("\nSkipping forward...");
+            ui.printNowPlaying(nowPlaying);
+            lastSkipDirection = 1;
+        }
     }
 
     public void stop() {

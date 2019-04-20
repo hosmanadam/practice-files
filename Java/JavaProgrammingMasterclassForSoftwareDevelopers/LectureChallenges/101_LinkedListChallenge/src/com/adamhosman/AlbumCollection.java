@@ -14,10 +14,6 @@ public class AlbumCollection {
         this.albums = albums;
     }
 
-    public ArrayList getAlbums() {
-        return albums;
-    }
-
     public Album getAlbumByTitle(String albumTitle) {
         for (Album album : albums) {
             if (album.getTitle().equals(albumTitle)) {

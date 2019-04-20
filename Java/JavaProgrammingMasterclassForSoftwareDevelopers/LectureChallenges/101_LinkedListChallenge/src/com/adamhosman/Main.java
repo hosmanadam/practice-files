@@ -14,26 +14,23 @@ public class Main {
      * Songs from different albums can be added to the playlist and will appear in the list in the order they are added. ✓
      * Once the songs have been added to the playlist, create a menu of options to:
      * Quit,  ✓
-     * Skip forward to the next song,   // TODO
-     * skip backwards to a previous song,  // TODO
-     * replay the current song,  // TODO
+     * Skip forward to the next song,  ✓
+     * skip backwards to a previous song,  ✓
+     * replay the current song,  ✓
      * list the songs in the playlist.  ✓
-     * A song must exist in an album before it can be added to the playlist (so you can only play songs that you own).  ✓
+     * A song must exist in an album before it can be added to the playlist (so you can only start songs that you own).  ✓
      * Hint:  To replay a song, consider what happened when we went back and forth from a city before we
      * started tracking the direction we were going.
-     * As an optional extra, provide an option to remove the current song from the playlist  // TODO
+     * As an optional extra, provide an option to remove the current song from the playlist  ✓
      * (hint: listiterator.remove()
      */
     public static void main(String[] args) {
         AlbumCollection demoCollection = createDemoCollection();
         PlayList demoPlayList = createDemoPlayList(demoCollection);
-        demoPlayList.play();
+        demoPlayList.start();
         while (demoPlayList.isPlaying()) {
             demoPlayList.handleMenu();
         }
-
-        demoPlayList.display();
-
     }
 
     public static AlbumCollection createDemoCollection() {
@@ -71,10 +68,10 @@ public class Main {
     }
 
     public static PlayList createDemoPlayList(AlbumCollection albumCollection) {
-        PlayList demoPlayList = new PlayList("All-time favorites");
         Album Metallica = albumCollection.getAlbumByTitle("Metallica");
         Album Thriller = albumCollection.getAlbumByTitle("Thriller");
 
+        PlayList demoPlayList = new PlayList("All-time favorites");
         demoPlayList.addSong(Metallica, "Nothing Else Matters");
         demoPlayList.addSong(Metallica, "Sad But True");
         demoPlayList.addSong(Thriller, "Thriller");

@@ -22,10 +22,6 @@ public class Album {
         return title;
     }
 
-    public ArrayList<Song> getSongs() {
-        return songs;
-    }
-
     public Single getSongByTitle(String songTitle) {
         for (Song song : songs) {
             if (song.getTitle().equals(songTitle)) {
