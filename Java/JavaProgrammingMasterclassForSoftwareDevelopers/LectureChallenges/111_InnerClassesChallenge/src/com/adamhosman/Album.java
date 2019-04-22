@@ -6,12 +6,12 @@ public class Album {
 
     private String artist;
     private String title;
-    private ArrayList<Song> songs;
+    private SongList songList;
 
     public Album(String artist, String title, ArrayList<Song> songs) {
         this.artist = artist;
         this.title = title;
-        this.songs = songs;
+        this.songList = new SongList(songs);
     }
 
     public String getArtist() {
@@ -23,12 +23,33 @@ public class Album {
     }
 
     public Single getSongByTitle(String songTitle) {
-        for (Song song : songs) {
-            if (song.getTitle().equals(songTitle)) {
-                return new Single(song, this);
-            }
-        }
+        Song song = songList.getSongByTitle(songTitle);
+        if (song != null)
+            return new Single(song, this);
         return null;
+    }
+
+    private class SongList {
+
+        private ArrayList<Song> songs;
+
+        public SongList(ArrayList<Song> songs) {
+            this.songs = songs;
+        }
+
+        public Song getSongByTitle(String songTitle) {
+            for (Song song : songs) {
+                if (song.getTitle().equals(songTitle)) {
+                    return song;
+                }
+            }
+            return null;
+        }
+
+        public void addSong(String title, int minutes, int seconds) {
+            songs.add(new Song(title, minutes, seconds));
+        }
+
     }
 
 }
