@@ -3,25 +3,26 @@ package com.adamhosman;
 /**
  * https://www.udemy.com/java-the-complete-java-developer-course/learn/lecture/3796286
  * 
- * For this challenge, create an abstract class to define items that can be stored in a list.  // TODO
+ * For this challenge, create an abstract class to define items that can be stored in a list.  ✓
  * The class should contain 2 references to items which will represent the next and previous
  * items (in the case of a linked list).
  * I.e., if you call your abstract class ListItem, then it would have 2 member variables of
- * type ListItem that will hold references to the next/right and previous/left ListItems.  // TODO
+ * type ListItem that will hold references to the next/right and previous/left ListItems.  ✓
  *
  * The abstract class will also need to hold a value - try to be as flexible as possible
- * when defining the type of this value.  // TODO
+ * when defining the type of this value.
  *
- * The class will also need methods to move to the next item and back to the previous item,  // TODO
- * and methods to set the next and previous items.  // TODO
+ * The class will also need methods to move to the next item and back to the previous item,
+ * and methods to set the next and previous items.
  *
  * You should also specify a compareTo() method that takes a parameter of the same type as the
  * class and returns 0 if the values are equal, greater than zero if the value sorts greater than
- * the parameter and less than zero if it sorts less than the parameter.  // TODO
+ * the parameter and less than zero if it sorts less than the parameter.  ✓
  *
  * Create a concrete class from your abstract list item class and use this in a LinkedList
  * class to implement a linked list that will add items in order (so that they are sorted
- * alphabetically). Duplicate values are not added.  // TODO: LinkedOrderedSet
+ * alphabetically).
+ * Duplicate values are not added.  ✓
  *
  * Note that you are creating your own LinkedList class here, not using the built-in Java one..
  *
@@ -36,7 +37,7 @@ package com.adamhosman;
  * Care will be needed when inserting before the first item in the list (as it will not have a previous
  * item).
  *
- * You will also need a method to remove an item from the list.  // TODO
+ * You will also need a method to remove an item from the list.  ✓
  *
  * Hint: If you are creating classes with names such as List, LinkedList, Node etc, make sure that
  * you create your classes before referring to them. In previous videos we have often referred to
@@ -58,15 +59,24 @@ package com.adamhosman;
 public class Main {
 
     public static void main(String[] args) {
+        LinkedOrderedSetOfStrings linkedOrderedSetOfStrings = new LinkedOrderedSetOfStrings(
+                "Darwin Brisbane Perth Melbourne Canberra Adelaide Sydney Canberra".split(" ")
+        );
+        System.out.println(linkedOrderedSetOfStrings.toString());
 
+//        testRemove(linkedOrderedSetOfStrings, -100);  // Should fail
+//        testRemove(linkedOrderedSetOfStrings, -1);  // Should fail
+//        testRemove(linkedOrderedSetOfStrings, 0);  // Should succeed
+//        testRemove(linkedOrderedSetOfStrings, 3);  // Should succeed
+//        testRemove(linkedOrderedSetOfStrings, 6);  // Should succeed
+//        testRemove(linkedOrderedSetOfStrings, 7);  // Should fail
+//        testRemove(linkedOrderedSetOfStrings, 100);  // Should fail
     }
 
-//    public static void splitPrint() {
-//        String string = "Darwin Brisbane Perth Melbourne Canberra Adelaide Sydney Canberra";
-//        String[] data = string.split(" ");
-//            for (String word : data) {
-//                System.out.println(word);
-//        }
-//    }
+    private static void testRemove(LinkedOrderedSetOfStrings linkedOrderedSetOfStrings, int index) {
+        boolean returnValue = linkedOrderedSetOfStrings.remove(index);
+        System.out.println("\n" + linkedOrderedSetOfStrings.getClass().getSimpleName() + ".remove(" + index + ") -> `" + returnValue + "`\n");
+        System.out.println(linkedOrderedSetOfStrings.toString());
+    }
 
 }
