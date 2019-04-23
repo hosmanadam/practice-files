@@ -2,7 +2,11 @@ package com.adamhosman;
 
 public class StringListNode extends ListNode {
 
-    public StringListNode(ListNode previousNode, Object value, ListNode nextNode) {
+    public StringListNode(String value) {
+        super(value);
+    }
+
+    public StringListNode(ListNode previousNode, String value, ListNode nextNode) {
         super(previousNode, value, nextNode);
     }
 

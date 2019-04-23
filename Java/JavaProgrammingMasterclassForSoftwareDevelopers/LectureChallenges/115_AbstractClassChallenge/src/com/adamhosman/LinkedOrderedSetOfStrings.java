@@ -30,7 +30,7 @@ public class LinkedOrderedSetOfStrings {
     }
 
     public boolean add(String string) {
-        StringListNode newNode = new StringListNode(null, string, null);
+        StringListNode newNode = new StringListNode(string);
         if (firstNode == null) {
             firstNode = newNode;
             return true;

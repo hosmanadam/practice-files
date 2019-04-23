@@ -6,6 +6,12 @@ public abstract class ListNode {
     private Object value;
     private ListNode nextNode;
 
+    /** Create loose node */
+    public ListNode(Object value) {
+        this(null, value, null);
+    }
+
+    /** Create linked node */
     public ListNode(ListNode previousNode, Object value, ListNode nextNode) {
         this.previousNode = previousNode;
         this.value = value;
