@@ -12,8 +12,21 @@ public interface NodeList {
     String toString();
     ArrayList toArrayListOfStrings();
 
+    default ListNode getNode(int requiredIndex) {
+        if (getRootNode() == null || requiredIndex < 0)
+            return null;
+        ListNode currentNode = getRootNode();
+        int currentNodeIndex = 0;
+        while (currentNodeIndex < requiredIndex) {
+            currentNode = currentNode.getNextNode();
+            if (currentNode == null)
+                return null;
+            currentNodeIndex++;
+        }
+        return currentNode;
+    }
 
-        default boolean remove(int requiredIndex) {
+    default boolean remove(int requiredIndex) {
         if (getRootNode() == null || requiredIndex < 0)
             return false;
 

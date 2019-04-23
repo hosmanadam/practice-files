@@ -32,17 +32,8 @@ public class LinkedOrderedSetOfStrings implements NodeList {
 
     @Override
     public String get(int requiredIndex) {
-        if (rootNode == null || requiredIndex < 0)
-            return null;
-        ListNode currentNode = rootNode;
-        int currentNodeIndex = 0;
-        while (currentNodeIndex < requiredIndex) {
-            currentNode = currentNode.getNextNode();
-            if (currentNode == null)
-                return null;
-            currentNodeIndex++;
-        }
-        return (String) currentNode.getValue();
+        ListNode node = getNode(requiredIndex);
+        return (node != null ? (String) node.getValue() : null);
     }
 
     @Override
