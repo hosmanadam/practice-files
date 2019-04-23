@@ -22,12 +22,7 @@ public class LinkedOrderedSetOfStrings implements NodeList {
 
     @Override
     public void setRootNode(ListNode listNode) {
-        rootNode = subtypeNode(listNode);
-    }
-
-    @Override
-    public StringListNode subtypeNode(ListNode listNode) {
-        return (StringListNode) listNode;
+        rootNode = (StringListNode) listNode;
     }
 
     @Override

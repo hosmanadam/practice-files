@@ -6,7 +6,6 @@ public interface NodeList {
 
     ListNode getRootNode();
     void setRootNode(ListNode listNode);
-    ListNode subtypeNode(ListNode listNode);
     Object get(int requiredIndex);
     boolean add(Object object);
     String toString();
@@ -31,7 +30,7 @@ public interface NodeList {
             return false;
 
         if (requiredIndex == 0) {
-            setRootNode(subtypeNode(getRootNode().getNextNode()));
+            setRootNode(getRootNode().getNextNode());
             return linkNodes(null, getRootNode());
         }
 
