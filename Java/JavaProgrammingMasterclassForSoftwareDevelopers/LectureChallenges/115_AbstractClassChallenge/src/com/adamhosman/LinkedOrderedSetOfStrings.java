@@ -34,27 +34,7 @@ public class LinkedOrderedSetOfStrings implements NodeList {
     @Override
     public boolean add(Object string) {
         StringListNode newNode = new StringListNode((String) string);
-        if (rootNode == null) {
-            rootNode = newNode;
-            return true;
-        }
-
-        ListNode previousNode = null;
-        ListNode nextNode = rootNode;
-        boolean beforeFirst = true;
-        do {
-            if (newNode.compareTo(nextNode) == 0)
-                return false;
-            if (newNode.compareTo(nextNode) == -1)
-                break;
-            previousNode = nextNode;
-            nextNode = nextNode.getNextNode();
-            beforeFirst = false;
-        } while (nextNode != null);
-
-        if (beforeFirst)
-            rootNode = newNode;
-        return linkNodes(previousNode, newNode, nextNode);
+        return addNode(newNode);
     }
 
     @Override

@@ -25,6 +25,30 @@ public interface NodeList {
         return currentNode;
     }
 
+    default boolean addNode(ListNode newNode) {
+        if (getRootNode() == null) {
+            setRootNode(newNode);
+            return true;
+        }
+
+        ListNode previousNode = null;
+        ListNode nextNode = getRootNode();
+        boolean beforeFirst = true;
+        do {
+            if (newNode.compareTo(nextNode) == 0)
+                return false;
+            if (newNode.compareTo(nextNode) == -1)
+                break;
+            previousNode = nextNode;
+            nextNode = nextNode.getNextNode();
+            beforeFirst = false;
+        } while (nextNode != null);
+
+        if (beforeFirst)
+            setRootNode(newNode);
+        return linkNodes(previousNode, newNode, nextNode);
+    }
+
     default boolean remove(int requiredIndex) {
         if (getRootNode() == null || requiredIndex < 0)
             return false;
