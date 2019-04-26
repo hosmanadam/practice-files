@@ -14,7 +14,17 @@ import java.util.Scanner;
  * Single letter commands (N, W, S, E, Q) should still be available.
  */
 public class Main {
-    private static Map<Integer, Location> locations = new HashMap<Integer, Location>();
+    private static Map<Integer, Location> locations = new HashMap<>();
+    private static final Map<String, String> DIRECTIONS;
+
+    static {
+        DIRECTIONS = new HashMap<>();
+        DIRECTIONS.put("WEST", "W");
+        DIRECTIONS.put("EAST", "E");
+        DIRECTIONS.put("SOUTH", "S");
+        DIRECTIONS.put("NORTH", "N");
+        DIRECTIONS.put("QUIT", "Q");
+    }
 
     public static void main(String[] args) {
 	    Scanner scanner = new Scanner(System.in);
@@ -42,6 +52,8 @@ public class Main {
         locations.get(5).addExit("W", 2);
 
         int loc = 1;
+        String input;
+        String direction;
         while(true) {
             System.out.println(locations.get(loc).getDescription());
             if(loc == 0) {
@@ -49,13 +61,10 @@ public class Main {
             }
 
             Map<String, Integer> exits = locations.get(loc).getExits();
-            System.out.print("Available exits are ");
-            for(String exit: exits.keySet()) {
-                System.out.print(exit + ", ");
-            }
-            System.out.println();
+            System.out.println("Available exits are " + String.join(", ", exits.keySet()));
 
-            String direction = scanner.nextLine().toUpperCase();
+            input = scanner.nextLine();
+            direction = extractDirection(input);
 
             if(exits.containsKey(direction)) {
                 loc = exits.get(direction);
@@ -66,4 +75,21 @@ public class Main {
         }
 
     }
+
+    private static String extractDirection(String string) {
+        String strippedUpper = string.strip().toUpperCase();
+        if (DIRECTIONS.containsValue(strippedUpper)) {
+            return strippedUpper;
+        }
+
+        String key;
+        for (String word : string.split(" ")) {
+            key = word.replaceAll("[\\W]*$", "").toUpperCase();
+            if (DIRECTIONS.containsKey(key)) {
+                return DIRECTIONS.get(key);
+            }
+        }
+        return null;
+    }
+
 }
