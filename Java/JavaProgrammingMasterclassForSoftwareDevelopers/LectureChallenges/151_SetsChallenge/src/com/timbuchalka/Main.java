@@ -143,6 +143,8 @@ public class Main {
     }
 
     private static void printSolarSystem() {
+        printStars();
+        printSatellitesOf("Sun");
         printPlanets();
         printSatellitesOf("Earth");
         printSatellitesOf("Mars");
@@ -156,6 +158,13 @@ public class Main {
         System.out.println("Satellites of " + body.getName());
         for (HeavenlyBody satellite: body.getSatellites()) {
             System.out.println("\t" + satellite.getName());
+        }
+    }
+
+    private static void printStars() {
+        System.out.println("Stars");
+        for(HeavenlyBody star : stars) {
+            System.out.println("\t" + star.getName());
         }
     }
 

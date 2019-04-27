@@ -27,8 +27,8 @@ public abstract class HeavenlyBody {
         return orbitalPeriod;
     }
 
-    public boolean addMoon(HeavenlyBody moon) {
-        return this.satellites.add(moon);
+    public boolean addSatellite(HeavenlyBody satellite) {
+        return this.satellites.add(satellite);
     }
 
     public Set<HeavenlyBody> getSatellites() {
