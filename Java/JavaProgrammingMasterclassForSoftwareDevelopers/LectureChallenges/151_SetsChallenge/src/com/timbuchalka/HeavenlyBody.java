@@ -6,15 +6,17 @@ import java.util.Set;
 /**
  * Created by dev on 12/01/2016.
  */
-public final class HeavenlyBody {
+public abstract class HeavenlyBody {
     private final String name;
     private final double orbitalPeriod;
     private final Set<HeavenlyBody> satellites;
+    private final String bodyType;
 
-    public HeavenlyBody(String name, double orbitalPeriod) {
+    public HeavenlyBody(String name, double orbitalPeriod, String bodyType) {
         this.name = name;
         this.orbitalPeriod = orbitalPeriod;
         this.satellites = new HashSet<>();
+        this.bodyType = bodyType;
     }
 
     public String getName() {
