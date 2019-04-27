@@ -49,104 +49,142 @@ import java.util.Set;
 public class Main {
     private static Map<String, HeavenlyBody> solarSystem = new HashMap<>();
     private static Set<HeavenlyBody> planets = new HashSet<>();
+    private static Set<HeavenlyBody> moons = new HashSet<>();
 
     public static void main(String[] args) {
+        createSolarSystem();
+        printSolarSystem();
+//        testSolarSystem();
+    }
 
-        HeavenlyBody temp = new Planet("Mercury", 88);
-        solarSystem.put(temp.getName(), temp);
-        planets.add(temp);
+    private static void createSolarSystem() {
 
-        temp = new Planet("Venus", 225);
-        solarSystem.put(temp.getName(), temp);
-        planets.add(temp);
+        HeavenlyBody tempPlanet;
+        HeavenlyBody tempMoon;
 
-        temp = new Planet("Earth", 365);
-        solarSystem.put(temp.getName(), temp);
-        planets.add(temp);
 
-        HeavenlyBody tempMoon = new Moon("Moon", 27);
+        tempPlanet = new Planet("Mercury", 88);
+        solarSystem.put(tempPlanet.getName(), tempPlanet);
+        planets.add(tempPlanet);
+
+
+        tempPlanet = new Planet("Venus", 225);
+        solarSystem.put(tempPlanet.getName(), tempPlanet);
+        planets.add(tempPlanet);
+
+
+        tempPlanet = new Planet("Earth", 365);
+        solarSystem.put(tempPlanet.getName(), tempPlanet);
+        planets.add(tempPlanet);
+
+        tempMoon = new Moon("Moon", 27);
         solarSystem.put(tempMoon.getName(), tempMoon);
-        temp.addMoon(tempMoon);
+        tempPlanet.addMoon(tempMoon);
 
-        temp = new Planet("Mars", 687);
-        solarSystem.put(temp.getName(), temp);
-        planets.add(temp);
+
+        tempPlanet = new Planet("Mars", 687);
+        solarSystem.put(tempPlanet.getName(), tempPlanet);
+        planets.add(tempPlanet);
 
         tempMoon = new Moon("Deimos", 1.3);
         solarSystem.put(tempMoon.getName(), tempMoon);
-        temp.addMoon(tempMoon); // temp is still Mars
+        tempPlanet.addMoon(tempMoon);
 
         tempMoon = new Moon("Phobos", 0.3);
         solarSystem.put(tempMoon.getName(), tempMoon);
-        temp.addMoon(tempMoon); // temp is still Mars
+        tempPlanet.addMoon(tempMoon);
 
-        temp = new Planet("Jupiter", 4332);
-        solarSystem.put(temp.getName(), temp);
-        planets.add(temp);
+
+        tempPlanet = new Planet("Jupiter", 4332);
+        solarSystem.put(tempPlanet.getName(), tempPlanet);
+        planets.add(tempPlanet);
 
         tempMoon = new Moon("Io", 1.8);
         solarSystem.put(tempMoon.getName(), tempMoon);
-        temp.addMoon(tempMoon); // temp is still Jupiter
+        tempPlanet.addMoon(tempMoon);
 
         tempMoon = new Moon("Europa", 3.5);
         solarSystem.put(tempMoon.getName(), tempMoon);
-        temp.addMoon(tempMoon); // temp is still Jupiter
+        tempPlanet.addMoon(tempMoon);
 
         tempMoon = new Moon("Ganymede", 7.1);
         solarSystem.put(tempMoon.getName(), tempMoon);
-        temp.addMoon(tempMoon); // temp is still Jupiter
+        tempPlanet.addMoon(tempMoon);
 
         tempMoon = new Moon("Callisto", 16.7);
         solarSystem.put(tempMoon.getName(), tempMoon);
-        temp.addMoon(tempMoon); // temp is still Jupiter
+        tempPlanet.addMoon(tempMoon);
 
-        temp = new Planet("Saturn", 10759);
-        solarSystem.put(temp.getName(), temp);
-        planets.add(temp);
 
-        temp = new Planet("Uranus", 30660);
-        solarSystem.put(temp.getName(), temp);
-        planets.add(temp);
+        tempPlanet = new Planet("Saturn", 10759);
+        solarSystem.put(tempPlanet.getName(), tempPlanet);
+        planets.add(tempPlanet);
 
-        temp = new Planet("Neptune", 165);
-        solarSystem.put(temp.getName(), temp);
-        planets.add(temp);
 
-        temp = new Planet("Pluto", 248);
-        solarSystem.put(temp.getName(), temp);
-        planets.add(temp);
+        tempPlanet = new Planet("Uranus", 30660);
+        solarSystem.put(tempPlanet.getName(), tempPlanet);
+        planets.add(tempPlanet);
 
-        System.out.println("Planets");
-        for(HeavenlyBody planet : planets) {
-            System.out.println("\t" + planet.getName());
-        }
 
-        HeavenlyBody body = solarSystem.get("Mars");
-        System.out.println("Moons of " + body.getName());
-        for(HeavenlyBody jupiterMoon: body.getSatellites()) {
-            System.out.println("\t" + jupiterMoon.getName());
-        }
+        tempPlanet = new Planet("Neptune", 165);
+        solarSystem.put(tempPlanet.getName(), tempPlanet);
+        planets.add(tempPlanet);
 
-        Set<HeavenlyBody> moons = new HashSet<>();
+
+        tempPlanet = new Planet("Pluto", 248);
+        solarSystem.put(tempPlanet.getName(), tempPlanet);
+        planets.add(tempPlanet);
+
+
         for(HeavenlyBody planet : planets) {
             moons.addAll(planet.getSatellites());
         }
 
+    }
+
+    private static void printSolarSystem() {
+        printPlanets();
+        printSatellitesOf("Earth");
+        printSatellitesOf("Mars");
+        printSatellitesOf("Jupiter");
+        printMoons();
+        printOrbitalPeriods();
+    }
+
+    private static void printSatellitesOf(String name) {
+        HeavenlyBody body = solarSystem.get(name);
+        System.out.println("Satellites of " + body.getName());
+        for (HeavenlyBody satellite: body.getSatellites()) {
+            System.out.println("\t" + satellite.getName());
+        }
+    }
+
+    private static void printPlanets() {
+        System.out.println("Planets");
+        for(HeavenlyBody planet : planets) {
+            System.out.println("\t" + planet.getName());
+        }
+    }
+
+    private static void printOrbitalPeriods() {
+        System.out.println("Orbital period in Earth days");
+        for(HeavenlyBody planet : planets) {
+            String paddedName = String.format("%-9s", planet.getName() + ":");
+            System.out.println("\t" + paddedName + (int) planet.getOrbitalPeriod());
+        }
+    }
+
+    private static void printMoons() {
         System.out.println("All Moons");
         for(HeavenlyBody moon : moons) {
             System.out.println("\t" + moon.getName());
         }
+    }
 
+    private static void testSolarSystem() {
         HeavenlyBody pluto = new Planet("Pluto", 842);
         planets.add(pluto);
-
-        for(HeavenlyBody planet : planets) {
-            System.out.println(planet.getName() + ": " + planet.getOrbitalPeriod());
-        }
-
-        Object o = new Object();
-        o.equals(o);
-        "pluto".equals("");
-
+        printOrbitalPeriods();
     }
+
 }
