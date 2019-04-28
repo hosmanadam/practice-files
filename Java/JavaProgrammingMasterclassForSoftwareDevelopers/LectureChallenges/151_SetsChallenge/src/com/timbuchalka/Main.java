@@ -36,7 +36,7 @@ import java.util.Set;
  * 2. a.equals(b) must return the same result as b.equals(a) - equals is symmetric.  // TODO
  *
  * 3. Attempting to add a duplicate to a Set must result in no change to the set (so
- * the original value is not replaced by the new one).  // TODO
+ * the original value is not replaced by the new one).  ✓
  *
  * 4. Attempting to add a duplicate to a Map results in the original being replaced
  * by the new object.  // TODO
@@ -165,22 +165,48 @@ public class Main {
 
     private static void testSolarSystem() {
         System.out.println("TESTS");
+        testPlanetDoesNotAcceptNonMoonSatellite();
+        testSetDoesNotOverwriteValueWithDuplicate();
         testSetDoesNotAcceptHeavenlyBodyOfSameNameAndSubclass();
-        testCanNotAddNonMoonSatelliteToPlanet();
         testSetAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass();
     }
 
-    private static void testSetDoesNotAcceptHeavenlyBodyOfSameNameAndSubclass() {
+    private static void testPlanetDoesNotAcceptNonMoonSatellite() {
+        HeavenlyBody earth = solarSystem.get("Earth");
+        HeavenlyBody sun = solarSystem.get("Sun");
+        boolean result = earth.addSatellite(sun);
+
+        System.out.println(
+                "    Planet does not accept non-moon satellite: " +
+                        (!result ? "PASSED ✓" : "FAILED ✗")
+        );
+        assert !result;
+    }
+
+    private static void testSetDoesNotOverwriteValueWithDuplicate() {
         double originalOrbitalPeriod = solarSystem.get("Pluto").getOrbitalPeriod();
-        Planet pluto = new Planet("Pluto", 842);
-        planets.add(pluto);
+        Planet pluto2 = new Planet("Pluto", 842);
+        planets.add(pluto2);
         double newOrbitalPeriod = solarSystem.get("Pluto").getOrbitalPeriod();
 
         System.out.println(
-                "    Set doesn't accept HeavenlyBody of same name and subclass: " +
+                "    Set doesn't overwrite vaue with duplicate: " +
                         (originalOrbitalPeriod == newOrbitalPeriod ? "PASSED ✓" : "FAILED ✗")
         );
         assert originalOrbitalPeriod == newOrbitalPeriod;
+    }
+
+    private static void testSetDoesNotAcceptHeavenlyBodyOfSameNameAndSubclass() {
+        int initialSize = solarSystem.size();
+        planets.add(new Planet("Pluto", 842));
+
+        System.out.println(
+                "    Set doesn't accept HeavenlyBody of same name and subclass: " +
+                        (initialSize == solarSystem.size()
+                                ? "PASSED ✓"
+                                : "FAILED ✗")
+        );
+        assert initialSize == solarSystem.size();
     }
 
     private static void testSetAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass() {
@@ -196,27 +222,6 @@ public class Main {
         );
         assert testSet.size() == 2;
     }
-
-    private static void testCanNotAddNonMoonSatelliteToPlanet() {
-        HeavenlyBody earth = solarSystem.get("Earth");
-        HeavenlyBody sun = solarSystem.get("Sun");
-        boolean result = earth.addSatellite(sun);
-
-        System.out.println(
-                "    Can't add non-moon satellite to planet: " +
-                        (!result ? "PASSED ✓" : "FAILED ✗")
-        );
-        assert !result;
-    }
-
-//    // TODO
-//    private static void testSetDoesNotOverwriteValueWithDuplicate() {
-//        System.out.println(
-//                "    : " +
-//                        (1 == 2 ? "PASSED ✓" : "FAILED ✗")
-//        );
-//        assert 1 == 2;
-//    }
 
 //    // TODO
 //    private static void testMapOverwritesValueWithDuplicate() {
