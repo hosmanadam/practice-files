@@ -27,6 +27,12 @@ public abstract class HeavenlyBody {
         return orbitalPeriod;
     }
 
+    public HeavenlyBody addSatellite(HeavenlyBody satellite, boolean chainable) {
+        if (this.satellites.add(satellite))
+            return this;
+        return null;
+    }
+
     public boolean addSatellite(HeavenlyBody satellite) {
         return this.satellites.add(satellite);
     }
