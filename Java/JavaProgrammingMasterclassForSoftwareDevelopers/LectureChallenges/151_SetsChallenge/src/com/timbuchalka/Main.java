@@ -41,16 +41,16 @@ import java.util.Set;
  * 4. Attempting to add a duplicate to a Map results in the original being replaced
  * by the new object.  // TODO
  *
- * 5. Two bodies with the same name but different designations can be added to the same set.  // TODO
+ * 5. Two bodies with the same name but different designations can be added to the same set.  ✓
  *
  * 6. Two bodies with the same name but different designations can be added to the same map,
  * and can be retrieved from the map.  // TODO
  */
 public class Main {
     private static Map<String, HeavenlyBody> solarSystem = new HashMap<>();
-    private static Set<HeavenlyBody> stars = new HashSet<>();
-    private static Set<HeavenlyBody> planets = new HashSet<>();
-    private static Set<HeavenlyBody> moons = new HashSet<>();
+    private static Set<Star> stars = new HashSet<>();
+    private static Set<Planet> planets = new HashSet<>();
+    private static Set<Moon> moons = new HashSet<>();
 
     public static void main(String[] args) {
         createSolarSystem();
@@ -171,13 +171,15 @@ public class Main {
         System.out.println("TESTS");
         testCantAddHeavenlyBodyOfSameNameAndSubclass();
         testCantAddNonMoonSatelliteToPlanet();
+        testSetAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass();
     }
 
     private static void testCantAddHeavenlyBodyOfSameNameAndSubclass() {
         double originalOrbitalPeriod = solarSystem.get("Pluto").getOrbitalPeriod();
-        HeavenlyBody pluto = new Planet("Pluto", 842);
+        Planet pluto = new Planet("Pluto", 842);
         planets.add(pluto);
         double newOrbitalPeriod = solarSystem.get("Pluto").getOrbitalPeriod();
+
         System.out.println(
                 "    Can't add() HeavenlyBody of same name and subclass: " +
                         (originalOrbitalPeriod == newOrbitalPeriod ? "PASSED ✓" : "FAILED ✗")
@@ -185,10 +187,25 @@ public class Main {
         assert originalOrbitalPeriod == newOrbitalPeriod;
     }
 
+    private static void testSetAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass() {
+        Set<HeavenlyBody> testSet = new HashSet<>();
+        Moon betaMinorMoon = new Moon("BetaMinor", 333);
+        testSet.add(betaMinorMoon);
+        Star betaMinorStar = new Star("BetaMinor", 999_999_999);
+        testSet.add(betaMinorStar);
+
+        System.out.println(
+                "    Set accepts HeavenlyBody of same name and different subclass: " +
+                        (testSet.size() == 2 ? "PASSED ✓" : "FAILED ✗")
+        );
+        assert testSet.size() == 2;
+    }
+
     private static void testCantAddNonMoonSatelliteToPlanet() {
         HeavenlyBody earth = solarSystem.get("Earth");
         HeavenlyBody sun = solarSystem.get("Sun");
         boolean result = earth.addSatellite(sun);
+
         System.out.println(
                 "    Can't add non-moon satellite to planet: " +
                         (!result ? "PASSED ✓" : "FAILED ✗")
@@ -196,12 +213,21 @@ public class Main {
         assert !result;
     }
 
+//    // TODO
+//    private static void testEqualsIsSymmetric() {
+//        System.out.println(
+//                "    : " +
+//                        (1 == 2 ? "PASSED ✓" : "FAILED ✗")
+//        );
+//        assert 1 == 2;
+//    }
+
 //    private static void test() {
 //        System.out.println(
 //                "    : " +
-//                        (1 == 1 ? "PASSED ✓" : "FAILED ✗")
+//                        (1 == 2 ? "PASSED ✓" : "FAILED ✗")
 //        );
-//        assert 1 == 1;
+//        assert 1 == 2;
 //    }
 
 }
