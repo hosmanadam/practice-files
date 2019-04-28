@@ -11,12 +11,14 @@ public abstract class HeavenlyBody {
     private final double orbitalPeriod;
     private final Set<HeavenlyBody> satellites;
     private final String bodyType;
+    private final Key key;
 
     public HeavenlyBody(String name, double orbitalPeriod, String bodyType) {
         this.name = name;
         this.orbitalPeriod = orbitalPeriod;
         this.satellites = new HashSet<>();
         this.bodyType = bodyType;
+        this.key = new Key(name, bodyType);
     }
 
     public String getName() {
@@ -25,6 +27,10 @@ public abstract class HeavenlyBody {
 
     public double getOrbitalPeriod() {
         return orbitalPeriod;
+    }
+
+    public Key getKey() {
+        return key;
     }
 
     public HeavenlyBody addSatellite(HeavenlyBody satellite, boolean chainable) {
@@ -46,20 +52,15 @@ public abstract class HeavenlyBody {
         if(this == obj) {
             return true;
         }
-
-//        System.out.println("obj.getClass() is " + obj.getClass());
-//        System.out.println("this.getClass() is " + this.getClass());
         if ((obj == null) || (obj.getClass() != this.getClass())) {
             return false;
         }
-
         String objName = ((HeavenlyBody) obj).getName();
         return this.name.equals(objName);
     }
 
     @Override
     public int hashCode() {
-//        System.out.println("hashcode called");
         return this.name.hashCode() + 57;
     }
 
