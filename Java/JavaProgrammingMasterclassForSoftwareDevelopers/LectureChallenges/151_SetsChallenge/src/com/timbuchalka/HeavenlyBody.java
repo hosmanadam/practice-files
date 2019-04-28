@@ -8,6 +8,7 @@ import java.util.Set;
  * Created by dev on 12/01/2016.
  */
 public abstract class HeavenlyBody {
+
     private final String name;
     private final double orbitalPeriod;
     private final Set<HeavenlyBody> satellites;
@@ -50,19 +51,16 @@ public abstract class HeavenlyBody {
 
     @Override
     public final boolean equals(Object obj) {
-        if(this == obj) {
+        if(this == obj)
             return true;
-        }
-        if ((obj == null) || (obj.getClass() != this.getClass())) {
+        if ((obj == null) || (obj.getClass() != this.getClass()))
             return false;
-        }
-        String objName = ((HeavenlyBody) obj).getName();
-        return this.name.equals(objName);
+        return key.equals(((HeavenlyBody) obj).getKey());
     }
 
     @Override
     public int hashCode() {
-        return this.name.hashCode() + 57;
+        return this.key.hashCode();
     }
 
     @Override
