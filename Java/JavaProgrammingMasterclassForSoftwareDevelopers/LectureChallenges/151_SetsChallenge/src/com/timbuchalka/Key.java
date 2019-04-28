@@ -5,9 +5,9 @@ import java.util.Objects;
 public final class Key implements Comparable<Key> {
 
     private final String name;
-    private final String bodyType;
+    private final BodyType bodyType;
 
-    public Key(String name, String bodyType) {
+    public Key(String name, BodyType bodyType) {
         this.name = name;
         this.bodyType = bodyType;
     }
@@ -16,7 +16,7 @@ public final class Key implements Comparable<Key> {
         return name;
     }
 
-    public String getBodyType() {
+    public BodyType getBodyType() {
         return bodyType;
     }
 

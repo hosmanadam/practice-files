@@ -10,10 +10,10 @@ public abstract class HeavenlyBody {
     private final String name;
     private final double orbitalPeriod;
     private final Set<HeavenlyBody> satellites;
-    private final String bodyType;
+    private final BodyType bodyType;
     private final Key key;
 
-    public HeavenlyBody(String name, double orbitalPeriod, String bodyType) {
+    public HeavenlyBody(String name, double orbitalPeriod, BodyType bodyType) {
         this.name = name;
         this.orbitalPeriod = orbitalPeriod;
         this.satellites = new HashSet<>();
