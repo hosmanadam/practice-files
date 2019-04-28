@@ -197,16 +197,16 @@ public class Main {
     }
 
     private static void testSetDoesNotAcceptHeavenlyBodyOfSameNameAndSubclass() {
-        int initialSize = solarSystem.size();
+        int initialSize = planets.size();
         planets.add(new Planet("Pluto", 842));
 
         System.out.println(
                 "    Set doesn't accept HeavenlyBody of same name and subclass: " +
-                        (initialSize == solarSystem.size()
+                        (initialSize == planets.size()
                                 ? "PASSED ✓"
                                 : "FAILED ✗")
         );
-        assert initialSize == solarSystem.size();
+        assert initialSize == planets.size();
     }
 
     private static void testSetAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass() {
