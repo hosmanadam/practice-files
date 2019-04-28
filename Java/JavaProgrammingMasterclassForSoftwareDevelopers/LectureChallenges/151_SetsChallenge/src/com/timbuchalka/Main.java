@@ -33,7 +33,7 @@ import java.util.Set;
  * 1. The planets and moons that we added in the previous video should appear in
  * the solarSystem collection and in the sets of moons for the appropriate planets.  ✓
  *
- * 2. a.equals(b) must return the same result as b.equals(a) - equals is symmetric.  // TODO
+ * 2. a.equals(b) must return the same result as b.equals(a) - equals is symmetric.  ✓
  *
  * 3. Attempting to add a duplicate to a Set must result in no change to the set (so
  * the original value is not replaced by the new one).  ✓
@@ -173,6 +173,7 @@ public class Main {
         testMapAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass();
         testMapOverwritesValueWithDuplicate();
         testCanRetrieveHeavenlyBodiesOfSameNameAndDifferentSubclassFromMap();
+        testEqualsIsSymmetric();
     }
 
     private static void testPlanetDoesNotAcceptNonMoonSatellite() {
@@ -285,13 +286,20 @@ public class Main {
         assert passed;
     }
 
-//    // TODO
-//    private static void testEqualsIsSymmetric() {
-//        System.out.println(
-//                "    : " +
-//                        (1 == 2 ? "PASSED ✓" : "FAILED ✗")
-//        );
-//        assert 1 == 2;
-//    }
+    private static void testEqualsIsSymmetric() {
+        Planet planet1 = new Planet("BetaMinor", 111);
+        Planet planet2 = new Planet("BetaMinor", 333);
+        Moon moon = new Moon("BetaMinor", 111);
+
+        boolean result1 = planet1.equals(moon) == moon.equals(planet1);
+        boolean result2 = planet1.equals(planet2) == planet2.equals(planet1);
+        boolean passed = result1 && result2;
+
+        System.out.println(
+                "    heavenlyBody.equals() is symmetric: " +
+                        (passed ? "PASSED ✓" : "FAILED ✗")
+        );
+        assert passed;
+    }
 
 }
