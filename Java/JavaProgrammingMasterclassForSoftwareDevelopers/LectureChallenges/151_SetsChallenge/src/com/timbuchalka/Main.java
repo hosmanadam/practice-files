@@ -47,7 +47,7 @@ import java.util.Set;
  * and can be retrieved from the map.  // TODO: create composite key class
  */
 public class Main {
-    private static Map<String, HeavenlyBody> solarSystem = new HashMap<>();
+    private static Map<Key, HeavenlyBody> solarSystem = new HashMap<>();
     private static Set<Star> stars = new HashSet<>();
     private static Set<Planet> planets = new HashSet<>();
     private static Set<Moon> moons = new HashSet<>();
@@ -96,32 +96,32 @@ public class Main {
 
     private static Star createStar(String name, double orbitalPeriod) {
         Star star = new Star(name, orbitalPeriod);
-        solarSystem.put(name, star);
+        solarSystem.put(star.getKey(), star);
         stars.add(star);
         return star;
     }
 
     private static Planet createPlanet(String name, double orbitalPeriod) {
         Planet planet = new Planet(name, orbitalPeriod);
-        solarSystem.put(name, planet);
+        solarSystem.put(planet.getKey(), planet);
         planets.add(planet);
         return planet;
     }
 
     private static Moon createMoon(String name, double orbitalPeriod) {
         Moon moon = new Moon(name, orbitalPeriod);
-        solarSystem.put(name, moon);
+        solarSystem.put(moon.getKey(), moon);
         moons.add(moon);
         return moon;
     }
 
     private static void printSolarSystem() {
         printStars();
-        printSatellitesOf("Sun");
+        printSatellitesOf("Sun", "Star");
         printPlanets();
-        printSatellitesOf("Earth");
-        printSatellitesOf("Mars");
-        printSatellitesOf("Jupiter");
+        printSatellitesOf("Earth", "Planet");
+        printSatellitesOf("Mars", "Planet");
+        printSatellitesOf("Jupiter", "Planet");
         printMoons();
         printOrbitalPeriods();
     }
@@ -147,8 +147,8 @@ public class Main {
         }
     }
 
-    private static void printSatellitesOf(String name) {
-        HeavenlyBody body = solarSystem.get(name);
+    private static void printSatellitesOf(String name, String bodyType) {
+        HeavenlyBody body = solarSystem.get(new Key(name, bodyType));
         System.out.println("Satellites of " + body.getName());
         for (HeavenlyBody satellite : body.getSatellites()) {
             System.out.println("\t" + satellite.getName());
@@ -169,11 +169,15 @@ public class Main {
         testSetDoesNotOverwriteValueWithDuplicate();
         testSetDoesNotAcceptHeavenlyBodyOfSameNameAndSubclass();
         testSetAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass();
+
+        testMapDoesNotAcceptHeavenlyBodyOfSameNameAndSubclass();
+        testMapAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass();
+        testMapOverwritesValueWithDuplicate();
     }
 
     private static void testPlanetDoesNotAcceptNonMoonSatellite() {
-        HeavenlyBody earth = solarSystem.get("Earth");
-        HeavenlyBody sun = solarSystem.get("Sun");
+        HeavenlyBody earth = solarSystem.get(new Key("Earth", "Planet"));
+        HeavenlyBody sun = solarSystem.get(new Key("Sun", "Star"));
         boolean result = earth.addSatellite(sun);
 
         System.out.println(
@@ -184,10 +188,11 @@ public class Main {
     }
 
     private static void testSetDoesNotOverwriteValueWithDuplicate() {
-        double originalOrbitalPeriod = solarSystem.get("Pluto").getOrbitalPeriod();
+        Key plutoKey = new Key("Pluto", "Planet");
+        double originalOrbitalPeriod = solarSystem.get(plutoKey).getOrbitalPeriod();
         Planet pluto2 = new Planet("Pluto", 842);
         planets.add(pluto2);
-        double newOrbitalPeriod = solarSystem.get("Pluto").getOrbitalPeriod();
+        double newOrbitalPeriod = solarSystem.get(plutoKey).getOrbitalPeriod();
 
         System.out.println(
                 "    Set doesn't overwrite vaue with duplicate: " +
@@ -223,14 +228,46 @@ public class Main {
         assert testSet.size() == 2;
     }
 
-//    // TODO
-//    private static void testMapOverwritesValueWithDuplicate() {
-//        System.out.println(
-//                "    : " +
-//                        (1 == 2 ? "PASSED ✓" : "FAILED ✗")
-//        );
-//        assert 1 == 2;
-//    }
+    private static void testMapDoesNotAcceptHeavenlyBodyOfSameNameAndSubclass() {
+        int initialSize = solarSystem.size();
+        Planet duplicate = new Planet("Pluto", 248);
+        solarSystem.put(duplicate.getKey(), duplicate);
+
+        System.out.println(
+                "    Map doesn't accept HeavenlyBody of same name and subclass: " +
+                        (initialSize == solarSystem.size()
+                                ? "PASSED ✓"
+                                : "FAILED ✗")
+        );
+        assert initialSize == solarSystem.size();
+    }
+
+    private static void testMapAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass() {
+        int initialSize = solarSystem.size();
+        Moon nonDuplicate = new Moon("Pluto", 248);
+        solarSystem.put(nonDuplicate.getKey(), nonDuplicate);
+
+        System.out.println(
+                "    Map accepts HeavenlyBody of same name and different subclass: " +
+                        (solarSystem.size() == initialSize + 1
+                                ? "PASSED ✓"
+                                : "FAILED ✗")
+        );
+        assert solarSystem.size() == initialSize + 1;
+    }
+
+    private static void testMapOverwritesValueWithDuplicate() {
+        int newValue = 9999999;
+        Planet duplicate = new Planet("Pluto", newValue);
+        solarSystem.put(duplicate.getKey(), duplicate);
+        HeavenlyBody retrieved = solarSystem.get(new Key("Pluto", "Planet"));
+
+        System.out.println(
+                "    Map overwrites value with duplicate: " +
+                        (retrieved.getOrbitalPeriod() == newValue ? "PASSED ✓" : "FAILED ✗")
+        );
+        assert retrieved.getOrbitalPeriod() == newValue;
+    }
 
 //    // TODO
 //    private static void testCanRetrieveHeavenlyBodiesOfSameNameAndDifferentSubclassFromMap() {
