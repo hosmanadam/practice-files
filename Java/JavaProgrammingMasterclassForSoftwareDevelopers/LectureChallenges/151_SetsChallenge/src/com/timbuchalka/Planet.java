@@ -6,4 +6,11 @@ public final class Planet extends HeavenlyBody {
         super(name, orbitalPeriod, "Planet");
     }
 
+    @Override
+    public boolean addSatellite(HeavenlyBody satellite) {
+        if (satellite instanceof Moon)
+            return super.addSatellite(satellite);
+        return false;
+    }
+
 }

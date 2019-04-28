@@ -28,7 +28,7 @@ public abstract class HeavenlyBody {
     }
 
     public HeavenlyBody addSatellite(HeavenlyBody satellite, boolean chainable) {
-        if (this.satellites.add(satellite))
+        if (addSatellite(satellite))
             return this;
         return null;
     }

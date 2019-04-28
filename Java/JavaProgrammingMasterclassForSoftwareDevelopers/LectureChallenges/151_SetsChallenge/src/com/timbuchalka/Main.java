@@ -1,7 +1,5 @@
 package com.timbuchalka;
 
-import com.sun.tools.javadoc.Start;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,11 +27,11 @@ import java.util.Set;
  * There is a restriction that the only satellites that planets can have must
  * be moons. Even if you don't implement a STAR type, though, your program
  * should not prevent one being added in the future (and a STAR's satellites
- * can be almost every kind of HeavenlyBody).  // TODO
+ * can be almost every kind of HeavenlyBody).  ✓
  *
  * Test cases:
  * 1. The planets and moons that we added in the previous video should appear in
- * the solarSystem collection and in the sets of moons for the appropriate planets.  // TODO
+ * the solarSystem collection and in the sets of moons for the appropriate planets.  ✓
  *
  * 2. a.equals(b) must return the same result as b.equals(a) - equals is symmetric.  // TODO
  *
@@ -57,7 +55,7 @@ public class Main {
     public static void main(String[] args) {
         createSolarSystem();
         printSolarSystem();
-//        testSolarSystem();
+        testSolarSystem();
     }
 
     private static void createSolarSystem() {
@@ -170,9 +168,40 @@ public class Main {
     }
 
     private static void testSolarSystem() {
+        System.out.println("TESTS");
+        testCantAddHeavenlyBodyOfSameNameAndSubclass();
+        testCantAddNonMoonSatelliteToPlanet();
+    }
+
+    private static void testCantAddHeavenlyBodyOfSameNameAndSubclass() {
+        double originalOrbitalPeriod = solarSystem.get("Pluto").getOrbitalPeriod();
         HeavenlyBody pluto = new Planet("Pluto", 842);
         planets.add(pluto);
-        printOrbitalPeriods();
+        double newOrbitalPeriod = solarSystem.get("Pluto").getOrbitalPeriod();
+        System.out.println(
+                "    Can't add() HeavenlyBody of same name and subclass: " +
+                        (originalOrbitalPeriod == newOrbitalPeriod ? "PASSED ✓" : "FAILED ✗")
+        );
+        assert originalOrbitalPeriod == newOrbitalPeriod;
     }
+
+    private static void testCantAddNonMoonSatelliteToPlanet() {
+        HeavenlyBody earth = solarSystem.get("Earth");
+        HeavenlyBody sun = solarSystem.get("Sun");
+        boolean result = earth.addSatellite(sun);
+        System.out.println(
+                "    Can't add non-moon satellite to planet: " +
+                        (!result ? "PASSED ✓" : "FAILED ✗")
+        );
+        assert !result;
+    }
+
+//    private static void test() {
+//        System.out.println(
+//                "    : " +
+//                        (1 == 1 ? "PASSED ✓" : "FAILED ✗")
+//        );
+//        assert 1 == 1;
+//    }
 
 }
