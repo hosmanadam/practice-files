@@ -39,12 +39,12 @@ import java.util.Set;
  * the original value is not replaced by the new one).  ✓
  *
  * 4. Attempting to add a duplicate to a Map results in the original being replaced
- * by the new object.  // TODO
+ * by the new object.  ✓
  *
  * 5. Two bodies with the same name but different designations can be added to the same set.  ✓
  *
  * 6. Two bodies with the same name but different designations can be added to the same map,
- * and can be retrieved from the map.  // TODO: create composite key class
+ * and can be retrieved from the map.  ✓
  */
 public class Main {
     private static Map<Key, HeavenlyBody> solarSystem = new HashMap<>();
@@ -169,22 +169,22 @@ public class Main {
         testSetDoesNotOverwriteValueWithDuplicate();
         testSetDoesNotAcceptHeavenlyBodyOfSameNameAndSubclass();
         testSetAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass();
-
         testMapDoesNotAcceptHeavenlyBodyOfSameNameAndSubclass();
         testMapAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass();
         testMapOverwritesValueWithDuplicate();
+        testCanRetrieveHeavenlyBodiesOfSameNameAndDifferentSubclassFromMap();
     }
 
     private static void testPlanetDoesNotAcceptNonMoonSatellite() {
         HeavenlyBody earth = solarSystem.get(new Key("Earth", "Planet"));
         HeavenlyBody sun = solarSystem.get(new Key("Sun", "Star"));
-        boolean result = earth.addSatellite(sun);
+        boolean passed = earth.addSatellite(sun);
 
         System.out.println(
                 "    Planet does not accept non-moon satellite: " +
-                        (!result ? "PASSED ✓" : "FAILED ✗")
+                        (!passed ? "PASSED ✓" : "FAILED ✗")
         );
-        assert !result;
+        assert !passed;
     }
 
     private static void testSetDoesNotOverwriteValueWithDuplicate() {
@@ -193,25 +193,25 @@ public class Main {
         Planet pluto2 = new Planet("Pluto", 842);
         planets.add(pluto2);
         double newOrbitalPeriod = solarSystem.get(plutoKey).getOrbitalPeriod();
+        boolean passed = originalOrbitalPeriod == newOrbitalPeriod;
 
         System.out.println(
                 "    Set doesn't overwrite vaue with duplicate: " +
-                        (originalOrbitalPeriod == newOrbitalPeriod ? "PASSED ✓" : "FAILED ✗")
+                        (passed ? "PASSED ✓" : "FAILED ✗")
         );
-        assert originalOrbitalPeriod == newOrbitalPeriod;
+        assert passed;
     }
 
     private static void testSetDoesNotAcceptHeavenlyBodyOfSameNameAndSubclass() {
         int initialSize = planets.size();
         planets.add(new Planet("Pluto", 842));
+        boolean passed = initialSize == planets.size();
 
         System.out.println(
                 "    Set doesn't accept HeavenlyBody of same name and subclass: " +
-                        (initialSize == planets.size()
-                                ? "PASSED ✓"
-                                : "FAILED ✗")
+                        (passed ? "PASSED ✓" : "FAILED ✗")
         );
-        assert initialSize == planets.size();
+        assert passed;
     }
 
     private static void testSetAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass() {
@@ -220,40 +220,39 @@ public class Main {
         testSet.add(betaMinorMoon);
         Star betaMinorStar = new Star("BetaMinor", 999_999_999);
         testSet.add(betaMinorStar);
+        boolean passed = testSet.size() == 2;
 
         System.out.println(
                 "    Set accepts HeavenlyBody of same name and different subclass: " +
-                        (testSet.size() == 2 ? "PASSED ✓" : "FAILED ✗")
+                        (passed ? "PASSED ✓" : "FAILED ✗")
         );
-        assert testSet.size() == 2;
+        assert passed;
     }
 
     private static void testMapDoesNotAcceptHeavenlyBodyOfSameNameAndSubclass() {
         int initialSize = solarSystem.size();
         Planet duplicate = new Planet("Pluto", 248);
         solarSystem.put(duplicate.getKey(), duplicate);
+        boolean passed = initialSize == solarSystem.size();
 
         System.out.println(
                 "    Map doesn't accept HeavenlyBody of same name and subclass: " +
-                        (initialSize == solarSystem.size()
-                                ? "PASSED ✓"
-                                : "FAILED ✗")
+                        (passed ? "PASSED ✓" : "FAILED ✗")
         );
-        assert initialSize == solarSystem.size();
+        assert passed;
     }
 
     private static void testMapAcceptsHeavenlyBodyOfSameNameAndDifferentSubclass() {
         int initialSize = solarSystem.size();
         Moon nonDuplicate = new Moon("Pluto", 248);
         solarSystem.put(nonDuplicate.getKey(), nonDuplicate);
+        boolean passed = solarSystem.size() == initialSize + 1;
 
         System.out.println(
                 "    Map accepts HeavenlyBody of same name and different subclass: " +
-                        (solarSystem.size() == initialSize + 1
-                                ? "PASSED ✓"
-                                : "FAILED ✗")
+                        (passed ? "PASSED ✓" : "FAILED ✗")
         );
-        assert solarSystem.size() == initialSize + 1;
+        assert passed;
     }
 
     private static void testMapOverwritesValueWithDuplicate() {
@@ -261,22 +260,30 @@ public class Main {
         Planet duplicate = new Planet("Pluto", newValue);
         solarSystem.put(duplicate.getKey(), duplicate);
         HeavenlyBody retrieved = solarSystem.get(new Key("Pluto", "Planet"));
+        boolean passed = retrieved.getOrbitalPeriod() == newValue;
 
         System.out.println(
                 "    Map overwrites value with duplicate: " +
-                        (retrieved.getOrbitalPeriod() == newValue ? "PASSED ✓" : "FAILED ✗")
+                        (passed ? "PASSED ✓" : "FAILED ✗")
         );
-        assert retrieved.getOrbitalPeriod() == newValue;
+        assert passed;
     }
 
-//    // TODO
-//    private static void testCanRetrieveHeavenlyBodiesOfSameNameAndDifferentSubclassFromMap() {
-//        System.out.println(
-//                "    : " +
-//                        (1 == 2 ? "PASSED ✓" : "FAILED ✗")
-//        );
-//        assert 1 == 2;
-//    }
+    private static void testCanRetrieveHeavenlyBodiesOfSameNameAndDifferentSubclassFromMap() {
+        Planet planet = new Planet("BetaMinor", 111);
+        Moon moon = new Moon("BetaMinor", 9999);
+        solarSystem.put(planet.getKey(), planet);
+        solarSystem.put(moon.getKey(), moon);
+        HeavenlyBody retrievedPlanet = solarSystem.get(new Key("BetaMinor", "Planet"));
+        HeavenlyBody retrievedMoon = solarSystem.get(new Key("BetaMinor", "Moon"));
+        boolean passed = retrievedPlanet.equals(planet) && retrievedMoon.equals(moon);
+
+        System.out.println(
+                "    Can retrieve heavenly bodies of same name and different subclass from map: " +
+                        (passed ? "PASSED ✓" : "FAILED ✗")
+        );
+        assert passed;
+    }
 
 //    // TODO
 //    private static void testEqualsIsSymmetric() {
