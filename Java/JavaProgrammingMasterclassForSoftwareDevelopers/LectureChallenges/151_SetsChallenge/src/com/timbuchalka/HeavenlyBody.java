@@ -48,7 +48,7 @@ public abstract class HeavenlyBody {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if(this == obj) {
             return true;
         }
@@ -64,4 +64,8 @@ public abstract class HeavenlyBody {
         return this.name.hashCode() + 57;
     }
 
+    @Override
+    public String toString() {
+        return bodyType + " '" + name + "' (orbital period: " + orbitalPeriod + ")";
+    }
 }
