@@ -154,7 +154,7 @@ public class Main {
     }
 
     private static void printSatellitesOf(String name, HeavenlyBody.BodyType bodyType) {
-        HeavenlyBody body = solarSystem.get(new HeavenlyBody.Key(name, bodyType));
+        HeavenlyBody body = solarSystem.get(HeavenlyBody.createKey(name, bodyType));
         System.out.println("Satellites of " + body.getName());
         for (HeavenlyBody satellite : body.getSatellites()) {
             System.out.println("\t" + satellite.getName());
@@ -183,8 +183,8 @@ public class Main {
     }
 
     private static void testPlanetDoesNotAcceptNonMoonSatellite() {
-        HeavenlyBody earth = solarSystem.get(new HeavenlyBody.Key("Earth", PLANET));
-        HeavenlyBody sun = solarSystem.get(new HeavenlyBody.Key("Sun", STAR));
+        HeavenlyBody earth = solarSystem.get(HeavenlyBody.createKey("Earth", PLANET));
+        HeavenlyBody sun = solarSystem.get(HeavenlyBody.createKey("Sun", STAR));
         boolean passed = !earth.addSatellite(sun);
 
         printTestResult("Planet does not accept non-moon satellite", passed);
@@ -192,7 +192,7 @@ public class Main {
     }
 
     private static void testSetDoesNotOverwriteValueWithDuplicate() {
-        HeavenlyBody.Key plutoKey = new HeavenlyBody.Key("Pluto", PLANET);
+        HeavenlyBody.Key plutoKey = HeavenlyBody.createKey("Pluto", PLANET);
         double originalOrbitalPeriod = solarSystem.get(plutoKey).getOrbitalPeriod();
         Planet pluto2 = new Planet("Pluto", 842);
         planets.add(pluto2);
@@ -248,7 +248,7 @@ public class Main {
         int newValue = 9999999;
         Planet duplicate = new Planet("Pluto", newValue);
         solarSystem.put(duplicate.getKey(), duplicate);
-        HeavenlyBody retrieved = solarSystem.get(new HeavenlyBody.Key("Pluto", PLANET));
+        HeavenlyBody retrieved = solarSystem.get(HeavenlyBody.createKey("Pluto", PLANET));
         boolean passed = retrieved.getOrbitalPeriod() == newValue;
 
         printTestResult("Map overwrites value with duplicate", passed);
@@ -260,8 +260,8 @@ public class Main {
         Moon moon = new Moon("BetaMinor", 9999);
         solarSystem.put(planet.getKey(), planet);
         solarSystem.put(moon.getKey(), moon);
-        HeavenlyBody retrievedPlanet = solarSystem.get(new HeavenlyBody.Key("BetaMinor", PLANET));
-        HeavenlyBody retrievedMoon = solarSystem.get(new HeavenlyBody.Key("BetaMinor", MOON));
+        HeavenlyBody retrievedPlanet = solarSystem.get(HeavenlyBody.createKey("BetaMinor", PLANET));
+        HeavenlyBody retrievedMoon = solarSystem.get(HeavenlyBody.createKey("BetaMinor", MOON));
         boolean passed = retrievedPlanet.equals(planet) && retrievedMoon.equals(moon);
 
         printTestResult("Can retrieve heavenly bodies of same name and different subclass from map", passed);

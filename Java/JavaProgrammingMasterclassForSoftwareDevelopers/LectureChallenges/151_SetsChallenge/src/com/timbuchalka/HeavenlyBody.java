@@ -15,6 +15,10 @@ public abstract class HeavenlyBody {
     private final BodyType bodyType;
     private final Key key;
 
+    public static final Key createKey(String name, BodyType bodyType) {
+        return new Key(name, bodyType);
+    }
+
     public HeavenlyBody(String name, double orbitalPeriod, BodyType bodyType) {
         this.name = name;
         this.orbitalPeriod = orbitalPeriod;
