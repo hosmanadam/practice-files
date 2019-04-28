@@ -179,13 +179,10 @@ public class Main {
     private static void testPlanetDoesNotAcceptNonMoonSatellite() {
         HeavenlyBody earth = solarSystem.get(new Key("Earth", "Planet"));
         HeavenlyBody sun = solarSystem.get(new Key("Sun", "Star"));
-        boolean passed = earth.addSatellite(sun);
+        boolean passed = !earth.addSatellite(sun);
 
-        System.out.println(
-                "    Planet does not accept non-moon satellite: " +
-                        (!passed ? "PASSED ✓" : "FAILED ✗")
-        );
-        assert !passed;
+        printTestResult("Planet does not accept non-moon satellite", passed);
+        assert passed;
     }
 
     private static void testSetDoesNotOverwriteValueWithDuplicate() {
@@ -196,10 +193,7 @@ public class Main {
         double newOrbitalPeriod = solarSystem.get(plutoKey).getOrbitalPeriod();
         boolean passed = originalOrbitalPeriod == newOrbitalPeriod;
 
-        System.out.println(
-                "    Set doesn't overwrite vaue with duplicate: " +
-                        (passed ? "PASSED ✓" : "FAILED ✗")
-        );
+        printTestResult("Set doesn't overwrite vaue with duplicate", passed);
         assert passed;
     }
 
@@ -208,10 +202,7 @@ public class Main {
         planets.add(new Planet("Pluto", 842));
         boolean passed = initialSize == planets.size();
 
-        System.out.println(
-                "    Set doesn't accept HeavenlyBody of same name and subclass: " +
-                        (passed ? "PASSED ✓" : "FAILED ✗")
-        );
+        printTestResult("Set doesn't accept HeavenlyBody of same name and subclass", passed);
         assert passed;
     }
 
@@ -223,10 +214,7 @@ public class Main {
         testSet.add(betaMinorStar);
         boolean passed = testSet.size() == 2;
 
-        System.out.println(
-                "    Set accepts HeavenlyBody of same name and different subclass: " +
-                        (passed ? "PASSED ✓" : "FAILED ✗")
-        );
+        printTestResult("Set accepts HeavenlyBody of same name and different subclass", passed);
         assert passed;
     }
 
@@ -236,10 +224,7 @@ public class Main {
         solarSystem.put(duplicate.getKey(), duplicate);
         boolean passed = initialSize == solarSystem.size();
 
-        System.out.println(
-                "    Map doesn't accept HeavenlyBody of same name and subclass: " +
-                        (passed ? "PASSED ✓" : "FAILED ✗")
-        );
+        printTestResult("Map doesn't accept HeavenlyBody of same name and subclass", passed);
         assert passed;
     }
 
@@ -249,10 +234,7 @@ public class Main {
         solarSystem.put(nonDuplicate.getKey(), nonDuplicate);
         boolean passed = solarSystem.size() == initialSize + 1;
 
-        System.out.println(
-                "    Map accepts HeavenlyBody of same name and different subclass: " +
-                        (passed ? "PASSED ✓" : "FAILED ✗")
-        );
+        printTestResult("Map accepts HeavenlyBody of same name and different subclass", passed);
         assert passed;
     }
 
@@ -263,10 +245,7 @@ public class Main {
         HeavenlyBody retrieved = solarSystem.get(new Key("Pluto", "Planet"));
         boolean passed = retrieved.getOrbitalPeriod() == newValue;
 
-        System.out.println(
-                "    Map overwrites value with duplicate: " +
-                        (passed ? "PASSED ✓" : "FAILED ✗")
-        );
+        printTestResult("Map overwrites value with duplicate", passed);
         assert passed;
     }
 
@@ -279,10 +258,7 @@ public class Main {
         HeavenlyBody retrievedMoon = solarSystem.get(new Key("BetaMinor", "Moon"));
         boolean passed = retrievedPlanet.equals(planet) && retrievedMoon.equals(moon);
 
-        System.out.println(
-                "    Can retrieve heavenly bodies of same name and different subclass from map: " +
-                        (passed ? "PASSED ✓" : "FAILED ✗")
-        );
+        printTestResult("Can retrieve heavenly bodies of same name and different subclass from map", passed);
         assert passed;
     }
 
@@ -295,11 +271,12 @@ public class Main {
         boolean result2 = planet1.equals(planet2) == planet2.equals(planet1);
         boolean passed = result1 && result2;
 
-        System.out.println(
-                "    heavenlyBody.equals() is symmetric: " +
-                        (passed ? "PASSED ✓" : "FAILED ✗")
-        );
+        printTestResult("heavenlyBody.equals() is symmetric", passed);
         assert passed;
+    }
+
+    private static void printTestResult(String description, boolean passed) {
+        System.out.println("    " + description + ": " + (passed ? "PASSED ✓" : "FAILED ✗"));
     }
 
 }
