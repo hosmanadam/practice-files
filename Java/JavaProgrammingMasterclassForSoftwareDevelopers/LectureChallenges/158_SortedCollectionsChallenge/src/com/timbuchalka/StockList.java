@@ -30,11 +30,11 @@ public class StockList {
         return 0;
     }
 
-    public int sellStock(String item, int quantity) {
+    public int reserveStock(String item, int quantity) {
         StockItem inStock = list.getOrDefault(item, null);
 
-        if((inStock != null) && (inStock.quantityInStock() >= quantity) && (quantity >0)) {
-            inStock.adjustStock(-quantity);
+        if((inStock != null) && (inStock.getQuantityNotReserved() >= quantity) && (quantity >0)) {
+            inStock.reserve(quantity);
             return quantity;
         }
         return 0;

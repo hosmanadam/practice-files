@@ -29,6 +29,21 @@ public class Basket {
         return Collections.unmodifiableMap(list);
     }
 
+    public boolean checkout() {
+        boolean success = true;
+        for (StockItem item : list.keySet()) {
+            System.out.println("Checking out " + item.getQuantityReserved() + " of " + item.getName());
+            if (!item.sellReserved())
+                success = false;
+        }
+        if (success) {
+            list.clear();
+        } else {
+            System.out.println("Something went very wrong during checkout");
+        }
+        return success;
+    }
+
     @Override
     public String toString() {
         String s = "\nShopping basket " + name + " contains " + list.size() + ((list.size() == 1) ? " item" : " items") + "\n";
