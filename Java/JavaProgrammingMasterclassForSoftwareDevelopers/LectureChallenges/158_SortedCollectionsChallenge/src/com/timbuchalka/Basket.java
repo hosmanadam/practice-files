@@ -25,15 +25,33 @@ public class Basket {
         return 0;
     }
 
+    public int removeFromBasket(StockItem item, int quantity, boolean removingAll) {
+        if ((item != null) && (quantity > 0)) {
+            if (removingAll) {
+                list.remove(item);
+                return quantity;
+            } else {
+                int inBasket = list.getOrDefault(item, 0);
+                list.put(item, inBasket - quantity);
+                return inBasket;
+            }
+        }
+        return 0;
+    }
+
     public Map<StockItem, Integer> Items() {
         return Collections.unmodifiableMap(list);
     }
 
     public boolean checkout() {
         boolean success = true;
-        for (StockItem item : list.keySet()) {
-            System.out.println("Checking out " + item.getQuantityReserved() + " of " + item.getName());
-            if (!item.sellReserved())
+        System.out.println("\nChecking out shopping basket " + name);
+        int quantity;
+        for (Map.Entry<StockItem, Integer> entry : list.entrySet()) {
+            StockItem item = entry.getKey();
+            quantity = item.getQuantityReserved();
+            System.out.println(quantity + " " + item.getName() + (quantity != 1 ? "s" : ""));
+            if (!item.sellReserved(entry.getValue()))
                 success = false;
         }
         if (success) {

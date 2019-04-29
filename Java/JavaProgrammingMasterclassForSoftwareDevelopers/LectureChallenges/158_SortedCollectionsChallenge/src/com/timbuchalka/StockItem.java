@@ -65,16 +65,24 @@ public class StockItem implements Comparable<StockItem> {
         return false;
     }
 
-    public boolean sellReserved() {
-        if (quantityStock >= quantityReserved) {
-            quantityStock -= quantityReserved;
-            quantityReserved = 0;
+    public boolean unReserve(int quantity) {
+        if (quantity <= quantityReserved) {
+            this.quantityReserved -= quantity;
             return true;
         }
         return false;
     }
 
-    @Override
+    public boolean sellReserved(int quantity) {
+        if (quantity <= quantityReserved) {
+            quantityStock -= quantity;
+            quantityReserved -= quantity;
+            return true;
+        }
+        return false;
+    }
+
+        @Override
     public boolean equals(Object obj) {
         System.out.println("Entering StockItem.equals");
         if(obj == this) {

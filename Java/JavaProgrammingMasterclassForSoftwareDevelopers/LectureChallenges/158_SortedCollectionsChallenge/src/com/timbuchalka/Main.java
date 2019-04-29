@@ -22,10 +22,10 @@ import java.util.Map;
  * Once checkout is complete, the contents of the basket are cleared. ✓
  *
  * It should also be possible to "unreserve" items that were added to the basket
- * by mistake. // TODO
+ * by mistake. ✓
  *
  * The program should prevent any attempt to unreserve more items than were
- * reserved for a basket. // TODO
+ * reserved for a basket. ✓
  *
  * Add code to Main that will unreserve items after they have been added to the basket,
  * as well as unreserving items that have not been added to make sure that the code
@@ -96,10 +96,17 @@ public class Main {
         reserveItem(timsBasket, "juice", 4);
         reserveItem(timsBasket, "cup", 12);
         reserveItem(timsBasket, "bread", 1);
+
+        unReserveItem(timsBasket, "cup", 12);
+        unReserveItem(timsBasket, "cup", 12);
+
+        Basket adamsBasket = new Basket("Adam");
+        reserveItem(adamsBasket, "car", 1);
+        System.out.println(adamsBasket);
+
         System.out.println(timsBasket);
-
         timsBasket.checkout();
-
+        System.out.println(timsBasket);
         System.out.println(stockList);
 
         //temp = new StockItem("pen", 1.12);
@@ -126,6 +133,23 @@ public class Main {
             return quantity;
         } else {
             System.out.println("Can't add more " + item + " to basket");
+        }
+        return 0;
+    }
+
+    public static int unReserveItem(Basket basket, String item, int quantity) {
+        //retrieve the item from stock list
+        StockItem stockItem = stockList.get(item);
+        if(stockItem == null) {
+            System.out.println("We don't sell " + item);
+            return 0;
+        }
+        boolean removingAll = (stockItem.getQuantityReserved() == quantity);
+        if(stockList.unReserveStock(item, quantity) != 0) {
+            basket.removeFromBasket(stockItem, quantity, removingAll);
+            return quantity;
+        } else {
+            System.out.println("Can't remove more " + item + " from basket");
         }
         return 0;
     }

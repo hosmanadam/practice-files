@@ -40,6 +40,16 @@ public class StockList {
         return 0;
     }
 
+    public int unReserveStock(String item, int quantity) {
+        StockItem inStock = list.getOrDefault(item, null);
+
+        if((inStock != null) && (quantity >0) && (inStock.getQuantityReserved() >= quantity)) {
+            inStock.unReserve(quantity);
+            return quantity;
+        }
+        return 0;
+    }
+
     public StockItem get(String key) {
         return list.get(key);
     }
