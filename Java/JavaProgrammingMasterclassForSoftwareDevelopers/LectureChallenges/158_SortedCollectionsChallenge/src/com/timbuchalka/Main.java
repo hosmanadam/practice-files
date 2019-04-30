@@ -1,7 +1,5 @@
 package com.timbuchalka;
 
-import java.util.Map;
-
 /**
  * https://www.udemy.com/java-the-complete-java-developer-course/learn/lecture/4702382
  *
@@ -97,17 +95,17 @@ public class Main {
         reserveItem(timsBasket, "cup", 12);
         reserveItem(timsBasket, "bread", 1);
 
-        unReserveItem(timsBasket, "cup", 12);
-        unReserveItem(timsBasket, "cup", 12);
+        unReserveItem(timsBasket, "cup", 12);  // Should delete item from basket
+        unReserveItem(timsBasket, "cup", 12);  // Should print error
 
         Basket adamsBasket = new Basket("Adam");
-        reserveItem(adamsBasket, "car", 1);
-        System.out.println(adamsBasket);
+        reserveItem(adamsBasket, "car", 1);  // Should print error
+        System.out.println(adamsBasket);  // Should be empty
 
         System.out.println(timsBasket);
         timsBasket.checkout();
         System.out.println(timsBasket);
-        System.out.println(stockList);
+        System.out.println(stockList);  // Should be empty
 
         //temp = new StockItem("pen", 1.12);
         //stockList.Items().put(temp.getName(), temp);
