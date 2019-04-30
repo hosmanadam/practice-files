@@ -66,32 +66,23 @@ public class Main {
 
     private static void createSolarSystem() {
         createPlanet("Mercury", 88);
-
         createPlanet("Venus", 225);
-
         createPlanet("Earth", 365)
                 .addSatellite(createMoon("Moon", 27), true);
-
         createPlanet("Mars", 687)
                 .addSatellite(createMoon("Deimos", 1.3), true)
                 .addSatellite(createMoon("Phobos", 0.3), true);
-
         createPlanet("Jupiter", 4332)
                 .addSatellite(createMoon("Io", 1.8), true)
                 .addSatellite(createMoon("Europa", 3.5), true)
                 .addSatellite(createMoon("Ganymede", 7.1), true)
                 .addSatellite(createMoon("Callisto", 16.7), true);
-
         createPlanet("Saturn", 10759);
-
         createPlanet("Uranus", 30660);
-
         createPlanet("Neptune", 165);
-
         createPlanet("Pluto", 248);
 
         Star sun = createStar("Sun", 225_000_000 * 365);
-
         for (HeavenlyBody planet : planets) {
             sun.addSatellite(planet);
             for (HeavenlyBody moon : planet.getSatellites()) {
