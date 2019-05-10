@@ -2,6 +2,6 @@ package com.adamhosman;
 
 public interface DisplayStrategy {
 
-    void display(Duck duck);
+    void display(String name, Sex sex, int age);
 
 }

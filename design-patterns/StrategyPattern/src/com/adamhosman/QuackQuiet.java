@@ -3,7 +3,7 @@ package com.adamhosman;
 public class QuackQuiet implements QuackStrategy {
 
     @Override
-    public void quack(Duck duck) {
-        System.out.println(duck.getName() + ": \"quack\"");
+    public void quack(String name) {
+        System.out.println(name + ": \"quack\"");
     }
 }

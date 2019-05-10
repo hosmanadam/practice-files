@@ -3,7 +3,7 @@ package com.adamhosman;
 public class FlyHigh implements FlyStrategy {
 
     @Override
-    public void fly(Duck duck) {
-        System.out.println(duck.getName() + " is soaring high in the skies...");
+    public void fly(String name) {
+        System.out.println(name + " is soaring high in the skies...");
     }
 }

@@ -18,28 +18,16 @@ public class Duck {
         this.display = display;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public Sex getSex() {
-        return sex;
-    }
-
     public void quack() {
-        quack.quack(this);
+        quack.quack(name);
     }
 
     public void fly() {
-        fly.fly(this);
+        fly.fly(name);
     }
 
     public void display() {
-        display.display(this);
+        display.display(name, sex, age);
     }
 
 }

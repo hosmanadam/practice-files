@@ -2,6 +2,6 @@ package com.adamhosman;
 
 public interface FlyStrategy {
 
-    void fly(Duck duck);
+    void fly(String name);
 
 }
